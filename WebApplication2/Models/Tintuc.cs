@@ -13,10 +13,10 @@ namespace WebApplication2.Models
         public string Tieudecon { get; set; }
         [Required, Display(Name = "Nội dung")]
         public string Noidung { get; set; }
-        //[Required(ErrorMessage ="Có đéo ảnh đâu"), Display(Name = "Ảnh")]
+        [Required(ErrorMessage ="Chưa có ảnh đâu"), Display(Name = "Ảnh")]
         public string Anh { get; set; }
         public DateTime? Ngaydang { get; set; }
-        [Required, Display(Name = "Tác gải")]
+        [Required, Display(Name = "Tác giả")]
         public string Tacgia { get; set; }
         [Required, Display(Name = "Mã chuyên mục")]
         public int? Machuyenmuc { get; set; }

@@ -132,7 +132,7 @@ namespace WebApplication2.Controllers
             {
                 return NotFound();
             }
-            ViewData["Machuyenmuc"] = new SelectList(_context.Chuyenmuc, "Machuyenmuc", "Machuyenmuc", tintuc.Machuyenmuc);
+            ViewData["Machuyenmuc"] = new SelectList(_context.Chuyenmuc, "Machuyenmuc", "Tenchuyenmuc", tintuc.Machuyenmuc);
             return View(tintuc);
         }
 
