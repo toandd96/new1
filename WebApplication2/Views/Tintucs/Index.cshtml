@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebApplication2.Models.Tintuc>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("Tintucs/getalltintuc", function (data) {
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+                var tr = $("<tr/>");
+                tr.append("<td>" + data[i].tieude + "</td>");
+                tr.append("<td>" + data[i].tieudecon + "</td>");
+                tr.append("<td>" + data[i].noidung + "</td>");
+                tr.append("<td><img src='/images/" + data[i].anh + "' width='150'/></td>");
+                tr.append("<td>" + data[i].tacgia + "</td>");
+                tr.append("<td>" + data[i].ngaydang + "</td>");
+                tr.append("<td><a href='Tintucs/Edit/" + data[i].matintuc + "'>Sửa</a>|<a href='Tintucs/Details/"
+                    + data[i].matintuc + "'>Chi tiết</a>|<a href='Tintucs/Delete/" + data[i].matintuc + "'>Xóa</a></td > ")
+                $("table").append(tr);
+            }
+            $("#tintuc").DataTable();
+        });
+    })
+</script>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered table-responsive" id="tintuc">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tieude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tieudecon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Noidung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ngaydang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tacgia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MachuyenmucNavigation)
+            </th>
+            <th>Tác vụ</th>
+        </tr>
+    </thead>
+    
+</table>
+    @section Scripts{
+    <script src="~/dataTable/dataTables.bootstrap.min.js"></script>
+    <link href="~/dataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/dataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <script src="~/dataTable/jquery.dataTables.min.js"></script>
+    }
+

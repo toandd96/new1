@@ -1,0 +1,30 @@
+@model WebApplication2.Models.Tinnhanh
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tinnhanh</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Noidung)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Noidung)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MachuyenmucNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MachuyenmucNavigation.Tenchuyenmuc)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Matinnhanh">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

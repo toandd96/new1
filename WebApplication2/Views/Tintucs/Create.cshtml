@@ -1,0 +1,72 @@
+@model WebApplication2.Models.Tintuc
+
+@{
+    ViewData["Title"] = "Create";
+}
+<script src="~/ckeditor/ckeditor.js"></script>
+<h2>Create</h2>
+
+<form asp-action="Create" enctype="multipart/form-data" method="post">
+    <div class="form-horizontal">
+        <h4>Tintuc</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Tieude" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Tieude" class="form-control" />
+                <span asp-validation-for="Tieude" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tieudecon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Tieudecon" class="form-control" />
+                <span asp-validation-for="Tieudecon" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Noidung" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <textarea asp-for="Noidung" class="form-control" ></textarea>
+                <script>
+                    CKEDITOR.replace('Noidung');
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Anh" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="file" name="Anh" />
+                <span asp-validation-for="Anh" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Tacgia" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Tacgia" class="form-control" />
+                <span asp-validation-for="Tacgia" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Machuyenmuc" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Machuyenmuc" class ="form-control" asp-items="ViewBag.Machuyenmuc"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

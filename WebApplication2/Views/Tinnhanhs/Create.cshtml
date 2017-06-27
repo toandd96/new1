@@ -1,0 +1,42 @@
+@model WebApplication2.Models.Tinnhanh
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Tinnhanh</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Noidung" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Noidung" class="form-control" />
+                <span asp-validation-for="Noidung" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Machuyenmuc" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Machuyenmuc" class ="form-control" asp-items="ViewBag.Machuyenmuc"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

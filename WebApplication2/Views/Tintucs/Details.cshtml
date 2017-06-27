@@ -1,0 +1,60 @@
+@model WebApplication2.Models.Tintuc
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tintuc</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tieude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tieude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tieudecon)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tieudecon)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Noidung)
+        </dt>
+        <dd>
+            @Html.Raw(@Model.Noidung)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Anh)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Anh)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ngaydang)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ngaydang)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tacgia)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tacgia)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MachuyenmucNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MachuyenmucNavigation.Machuyenmuc)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Matintuc">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
