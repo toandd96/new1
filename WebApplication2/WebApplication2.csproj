@@ -350,6 +350,7 @@
     <Content Include="wwwroot\ckeditor\styles.js" />
     <Content Include="wwwroot\dataTable\dataTables.bootstrap.min.css" />
     <Content Include="wwwroot\dataTable\dataTables.bootstrap.min.js" />
+    <Content Include="wwwroot\dataTable\dataTables.bootstrap4.min.css" />
     <Content Include="wwwroot\dataTable\jquery.dataTables.min.css" />
     <Content Include="wwwroot\dataTable\jquery.dataTables.min.js" />
   </ItemGroup>
