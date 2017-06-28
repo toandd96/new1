@@ -40,12 +40,8 @@ namespace WebApplication2
             services.AddDbContext<WebTTContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<string>>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireUppercase = false;
-                })
+            services.AddIdentity<ApplicationUser, IdentityRole<string>>(
+            )
                 .AddEntityFrameworkStores<WebTTContext, string>()
                 .AddDefaultTokenProviders();
 
