@@ -1,17 +1,17 @@
-@model WebApplication2.Models.Tintuc
+﻿@model WebApplication2.Models.Tintuc
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Xóa</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Bạn có chắc chắn muốn xóa điều này?</h3>
 <div>
-    <h4>Tintuc</h4>
+    <h4>Tin tức</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="Matintuc" />
+        
         <dt>
             @Html.DisplayNameFor(model => model.Tieude)
         </dt>
@@ -28,13 +28,13 @@
             @Html.DisplayNameFor(model => model.Noidung)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Noidung)
+            @Html.Raw(Model.Noidung)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Anh)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Anh)
+            <img src="~/images/@Model.Anh" width="250" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Ngaydang)
@@ -49,7 +49,7 @@
             @Html.DisplayFor(model => model.Tacgia)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.MachuyenmucNavigation)
+            @Html.DisplayNameFor(model => model.Machuyenmuc)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.MachuyenmucNavigation.Machuyenmuc)
@@ -58,8 +58,8 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Xóa" class="btn btn-danger" /> |
+            <a asp-action="Index">Quay trở lại</a>
         </div>
     </form>
 </div>

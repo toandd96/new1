@@ -12,7 +12,7 @@ namespace WebApplication2.Models
         public string Noidung { get; set; }
         [Required(ErrorMessage ="Chưa nhập chuyên mục của bài viết"),Display(Name ="Chuyên mục của bài viết")]
         public int? Machuyenmuc { get; set; }
-
+        [Display(Name ="Tên chuyên mục")]
         public virtual Chuyenmuc MachuyenmucNavigation { get; set; }
     }
 }
