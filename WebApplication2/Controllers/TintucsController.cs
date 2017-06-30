@@ -230,9 +230,33 @@ namespace WebApplication2.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id,Chuyenmuc cm)
         {
-            var tintuc = await _context.Tintuc.SingleOrDefaultAsync(m => m.Matintuc == id);
+
+            var tintuc = await _context.Tintuc.SingleOrDefaultAsync(am => am.Matintuc == id);
+            var chuyenmuc = _context.Chuyenmuc.Where(c => c.Machuyenmuc==tintuc.Machuyenmuc);
+            var sbv = chuyenmuc.Select(c => c.Sobaiviet);
+            var tbv = chuyenmuc.Select(c => c.Tenchuyenmuc);
+            var mbv = chuyenmuc.Select(c => c.Machuyenmuc);
+            var s = 0;
+            var t = string.Empty;
+            var m = 0;
+            foreach(var item in sbv)
+            {
+                s = Convert.ToInt32(item.ToString());
+            }
+            foreach(var item in tbv)
+            {
+                t = item.ToString();
+            }
+            foreach(var item in mbv)
+            {
+                m = Convert.ToInt32(item.ToString());
+            }
+            cm.Tenchuyenmuc = t;
+            cm.Sobaiviet = s-1;
+            cm.Machuyenmuc = m;
+            _context.Update(cm);
             _context.Tintuc.Remove(tintuc);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
