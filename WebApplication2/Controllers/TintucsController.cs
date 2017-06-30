@@ -14,7 +14,7 @@ namespace WebApplication2.Controllers
 {
     public class TintucsController : Controller
     {
-        
+
         private readonly WebTTContext _context;
         private readonly IHostingEnvironment _enviroment;
 
@@ -44,6 +44,7 @@ namespace WebApplication2.Controllers
         // GET: Tintucs
         [HttpGet]
         [Authorize]
+        //[ValidateInput(false)]
         public async Task<IActionResult> Index()
         {
             var webTTContext = _context.Tintuc.Include(t => t.MachuyenmucNavigation);
@@ -82,8 +83,9 @@ namespace WebApplication2.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh)
+        public async Task<IActionResult> Create([Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh, Chuyenmuc chuyenmuc)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +98,7 @@ namespace WebApplication2.Controllers
                     {
                         filename = filename.Split('\\').Last();
                     }
-                    using (var fileStream = new FileStream(Path.Combine(uploadpath, filename), FileMode.Create))
+                    using (FileStream fileStream = new FileStream(Path.Combine(uploadpath, filename), FileMode.Create))
                     {
                         await Anh.CopyToAsync(fileStream);
 
@@ -104,10 +106,24 @@ namespace WebApplication2.Controllers
                     }
                 }
                 tintuc.Ngaydang = DateTime.Now;
-
-
-
+                var sbv = _context.Chuyenmuc.Where(c => c.Machuyenmuc == tintuc.Machuyenmuc);
+                var sbd = sbv.Select(c => c.Sobaiviet);
+                var tbv = sbv.Select(c => c.Tenchuyenmuc);
+                var t = string.Empty;
+                var s = 0;
+                foreach (var item in sbd)
+                {
+                    s = int.Parse(item.ToString());
+                }
+                foreach (var item in tbv)
+                {
+                    t = item.ToString();
+                }
+                chuyenmuc.Tenchuyenmuc = t;
+                chuyenmuc.Sobaiviet = s + 1;
+                _context.Update(chuyenmuc);
                 _context.Add(tintuc);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
 
