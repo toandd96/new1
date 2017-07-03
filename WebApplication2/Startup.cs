@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using WebApplication2.Data;
 using WebApplication2.Models;
 using WebApplication2.Services;
@@ -50,7 +52,12 @@ namespace WebApplication2
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
+            services.AddSingleton<HtmlEncoder>(
+                    HtmlEncoder.Create(allowedRanges: new[]
+                    {
+                        UnicodeRanges.BasicLatin,UnicodeRanges.CjkCompatibilityIdeographs
+                    }
+                ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -106,22 +106,8 @@ namespace WebApplication2.Controllers
                     }
                 }
                 tintuc.Ngaydang = DateTime.Now;
-                var sbv = _context.Chuyenmuc.Where(c => c.Machuyenmuc == tintuc.Machuyenmuc);
-                var sbd = sbv.Select(c => c.Sobaiviet);
-                var tbv = sbv.Select(c => c.Tenchuyenmuc);
-                var t = string.Empty;
-                var s = 0;
-                foreach (var item in sbd)
-                {
-                    s = int.Parse(item.ToString());
-                }
-                foreach (var item in tbv)
-                {
-                    t = item.ToString();
-                }
-                chuyenmuc.Tenchuyenmuc = t;
-                chuyenmuc.Sobaiviet = s + 1;
-                _context.Update(chuyenmuc);
+                var sbv =await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
+                sbv.Sobaiviet = sbv.Sobaiviet + 1;
                 _context.Add(tintuc);
 
                 await _context.SaveChangesAsync();
@@ -158,17 +144,19 @@ namespace WebApplication2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh)
+        public async Task<IActionResult> Edit(int id, [Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh, Chuyenmuc chuyenmuc)
         {
+
             if (id != tintuc.Matintuc)
             {
                 return NotFound();
             }
-
+            var a=tintuc.Machuyenmuc;
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // sửa ảnh cho tin tức
                     if (Anh.Length > 0)
                     {
                         var uploadpath = Path.Combine(_enviroment.WebRootPath, "images");
@@ -185,7 +173,14 @@ namespace WebApplication2.Controllers
                             tintuc.Anh = Anh.FileName;
                         }
                     }
-
+                    //lấy tin tức trước khi sửa
+                    Tintuc tintucchuasua =await _context.Tintuc.AsNoTracking().Where(tt => tt.Matintuc == id).FirstOrDefaultAsync();
+                    //số bài viết giảm đi trong chuyên mục
+                    Chuyenmuc chuyenmucbisua = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintucchuasua.Machuyenmuc);
+                    chuyenmucbisua.Sobaiviet = chuyenmucbisua.Sobaiviet - 1;
+                    // sửa số bài viết tăng lên trong chuyên mục
+                    chuyenmuc = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
+                    chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet + 1;
                     _context.Update(tintuc);
                     await _context.SaveChangesAsync();
                 }
@@ -230,33 +225,12 @@ namespace WebApplication2.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id,Chuyenmuc cm)
+        public async Task<IActionResult> DeleteConfirmed(int id, Chuyenmuc cm)
         {
 
             var tintuc = await _context.Tintuc.SingleOrDefaultAsync(am => am.Matintuc == id);
-            var chuyenmuc = _context.Chuyenmuc.Where(c => c.Machuyenmuc==tintuc.Machuyenmuc);
-            var sbv = chuyenmuc.Select(c => c.Sobaiviet);
-            var tbv = chuyenmuc.Select(c => c.Tenchuyenmuc);
-            var mbv = chuyenmuc.Select(c => c.Machuyenmuc);
-            var s = 0;
-            var t = string.Empty;
-            var m = 0;
-            foreach(var item in sbv)
-            {
-                s = Convert.ToInt32(item.ToString());
-            }
-            foreach(var item in tbv)
-            {
-                t = item.ToString();
-            }
-            foreach(var item in mbv)
-            {
-                m = Convert.ToInt32(item.ToString());
-            }
-            cm.Tenchuyenmuc = t;
-            cm.Sobaiviet = s-1;
-            cm.Machuyenmuc = m;
-            _context.Update(cm);
+            var chuyenmuc = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
+            chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet - 1;
             _context.Tintuc.Remove(tintuc);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

@@ -18,8 +18,8 @@
                 tr.append("<td><img src='/images/" + data[i].anh + "' width='150'/></td>");
                 tr.append("<td>" + data[i].tacgia + "</td>");
                 tr.append("<td>" + data[i].ngaydang + "</td>");
-                tr.append("<td><a href='Tintucs/Edit/" + data[i].matintuc + "'>Sửa</a>|<a href='Tintucs/Details/"
-                    + data[i].matintuc + "'>Chi tiết</a>|<a href='Tintucs/Delete/" + data[i].matintuc + "'>Xóa</a></td > ")
+                tr.append("<td><a href='Tintucs/Edit/" + data[i].matintuc + "'>Sửa</a> | <a href='Tintucs/Details/"
+                    + data[i].matintuc + "'>Chi tiết</a> | <a href='Tintucs/Delete/" + data[i].matintuc + "'>Xóa</a></td > ")
                 $("table").append(tr);
             }
             $("#tintuc").DataTable();
@@ -27,7 +27,8 @@
     })
 </script>
 <p>
-    <a asp-action="Create">Tạo mới</a>
+    
+    <input type="button" value="Tạo mới" class="btn btn-primary" onclick="location.href=' @Url.Action("Create", "Tintucs")'"/>
 </p>
 <table class="table table-bordered table-responsive" id="tintuc" style="text-align:center">
     <thead>
@@ -51,7 +52,7 @@
                 @Html.DisplayNameFor(model => model.Ngaydang)
             </th>
             
-            <th>Tác vụ</th>
+            <th width="98">Tác vụ</th>
         </tr>
     </thead>
     

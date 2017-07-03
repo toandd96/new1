@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,10 +62,12 @@ namespace WebApplication2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("Matinnhanh,Noidung,Machuyenmuc")] Tinnhanh tinnhanh)
+        public async Task<IActionResult> Create([Bind("Matinnhanh,Noidung,Machuyenmuc")] Tinnhanh tinnhanh,Chuyenmuc chuyenmuc)
         {
             if (ModelState.IsValid)
             {
+                var sbv =await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tinnhanh.Machuyenmuc);
+                sbv.Sobaiviet = sbv.Sobaiviet + 1;
                 _context.Add(tinnhanh);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -109,6 +111,14 @@ namespace WebApplication2.Controllers
             {
                 try
                 {
+                    //tạo đối tượng Tinnhanh
+                    Tinnhanh tinnhanhchuasua =await _context.Tinnhanh.AsNoTracking().Where(tn => tn.Matinnhanh == tinnhanh.Matinnhanh).SingleOrDefaultAsync();
+                    //chuyên mục bị sửa
+                    Chuyenmuc chuyenmucbisua = await _context.Chuyenmuc.SingleOrDefaultAsync(cm => cm.Machuyenmuc == tinnhanhchuasua.Machuyenmuc);
+                    chuyenmucbisua.Sobaiviet = chuyenmucbisua.Sobaiviet - 1;
+                    //chuyên mục sau khi sửa
+                    Chuyenmuc chuyenmuc = await _context.Chuyenmuc.SingleOrDefaultAsync(cm => cm.Machuyenmuc == tinnhanh.Machuyenmuc);
+                    chuyenmuc.Sobaiviet += chuyenmuc.Sobaiviet;
                     _context.Update(tinnhanh);
                     await _context.SaveChangesAsync();
                 }
@@ -153,9 +163,12 @@ namespace WebApplication2.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id,Chuyenmuc cm)
         {
-            var tinnhanh = await _context.Tinnhanh.SingleOrDefaultAsync(m => m.Matinnhanh == id);
+
+            var tinnhanh = await _context.Tinnhanh.SingleOrDefaultAsync(am => am.Matinnhanh == id);
+            var chuyenmuc =await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tinnhanh.Machuyenmuc);
+            chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet - 1;
             _context.Tinnhanh.Remove(tinnhanh);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

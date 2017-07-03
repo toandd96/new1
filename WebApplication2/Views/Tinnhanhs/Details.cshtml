@@ -1,4 +1,4 @@
-@model WebApplication2.Models.Tinnhanh
+﻿@model WebApplication2.Models.Tinnhanh
 
 @{
     ViewData["Title"] = "Details";
@@ -25,6 +25,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Matinnhanh">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <input type="button" value="Sửa" class="btn btn-success" onclick="location.href='@Url.Action("Edit","Tinnhanhs",new { id=Model.Matinnhanh})'" />
+    <input type="button" value="Quay trở lại" class="btn btn-info" onclick="location.href='@Url.Action("Index","Tinnhanhs")'" />

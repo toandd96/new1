@@ -46,7 +46,7 @@
         <div class="form-group">
             <label asp-for="Anh" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input type="file" name="Anh" class="form-inline"/>
+                <input type="file" name="Anh" class="btn-default"/>
                 <span asp-validation-for="Anh" class="text-danger"></span>
             </div>
         </div>
@@ -80,7 +80,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Quay trở lại</a>
+    <input type="button" value="Quay trở lại" class="btn btn-info"    onclick="location.href='@Url.Action("Index","Tintucs")'"/>
 </div>
 
 @section Scripts {
