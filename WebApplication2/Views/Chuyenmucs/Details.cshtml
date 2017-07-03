@@ -25,6 +25,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Machuyenmuc">Sửa</a> |
-    <a asp-action="Index">Quay trở lại</a>
+    <button class="btn btn-success" onclick="location.href='@Url.Action("Edit","Chuyenmucs",new { id=Model.Machuyenmuc})'">Sửa</button> |
+    <button class="btn btn-info" onclick="location.href='@Url.Action("Index","Chuyenmucs")'">Quay trở lại</button>
 </div>

@@ -28,14 +28,14 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Quay trở lại</a>
+   <input type="button" value="Quay trở lại" class="btn btn-info" onclick="location.href='@Url.Action("Index","Chuyenmucs")'" />
 </div>
 
 @section Scripts {

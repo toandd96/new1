@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.MachuyenmucNavigation.Tenchuyenmuc)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Matinnhanh">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Matinnhanh">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Matinnhanh">Delete</a>
+                <button class="btn btn-success" onclick="location.href='@Url.Action("Edit","Tinnhanhs",new{id=item.Matinnhanh})'">Sửa</button>
+                <button class="btn btn-info" onclick="location.href='@Url.Action("Details","Tinnhanhs",new{id=item.Matinnhanh})'">Chi tiết</button>
+                <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete","Tinnhanhs",new{id=item.Matinnhanh})'">Xóa</button>
             </td>
         </tr>
 }

@@ -1,10 +1,10 @@
-@model WebApplication2.Models.Tintuc
+﻿@model WebApplication2.Models.Tintuc
 
 @{
     ViewData["Title"] = "Create";
 }
 <script src="~/ckeditor/ckeditor.js"></script>
-<h2>Create</h2>
+<h2>Tạo mới</h2>
 
 <form asp-action="Create" enctype="multipart/form-data" method="post">
     <div class="form-horizontal">
@@ -37,7 +37,7 @@
         <div class="form-group">
             <label asp-for="Anh" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input type="file" name="Anh" />
+                <input type="file" name="Anh" class="btn-default"/>
                 <span asp-validation-for="Anh" class="text-danger"></span>
             </div>
         </div>
@@ -57,14 +57,14 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <input type="button" class="btn btn-info" value="Quay trở lại" onclick="location.href='@Url.Action("Index","Tintucs")'"/>
 </div>
 
 @section Scripts {
