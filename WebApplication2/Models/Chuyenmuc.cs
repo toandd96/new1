@@ -15,8 +15,8 @@ namespace WebApplication2.Models
         public int Machuyenmuc { get; set; }
         [ Display(Name = "Tên chuyên mục")]
         public string Tenchuyenmuc { get; set; }
-        [ Display(Name = "Số bài viết")]
-        public int Sobaiviet { get; set; }
+        //[ Display(Name = "Số bài viết")]
+        //public int Sobaiviet { get; set; }
 
         public virtual ICollection<Tinnhanh> Tinnhanh { get; set; }
         public virtual ICollection<Tintuc> Tintuc { get; set; }

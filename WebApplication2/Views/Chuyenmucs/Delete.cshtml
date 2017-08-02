@@ -18,12 +18,13 @@
         <dd>
             @Html.DisplayFor(model => model.Tenchuyenmuc)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Sobaiviet)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Sobaiviet)
-        </dd>
+            @ViewData["a"]
+        </dd>*@
     </dl>
     
     <form asp-action="Delete">
@@ -31,5 +32,6 @@
             <input type="submit" value="Chấp nhận" class="btn btn-danger" /> |
             <input type="button" value="Quay trở lại" class="btn btn-info" onclick="location.href='@Url.Action("Index","Chuyenmucs")'" />
         </div>
+        
     </form>
 </div>

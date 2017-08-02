@@ -11,6 +11,8 @@ using System.Text.Unicode;
 using WebApplication2.Data;
 using WebApplication2.Models;
 using WebApplication2.Services;
+using Microsoft.AspNetCore.Session;
+using System;
 
 namespace WebApplication2
 {
@@ -48,7 +50,12 @@ namespace WebApplication2
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(30);
+                option.CookieHttpOnly = true;
+            }
+            );
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -58,6 +65,9 @@ namespace WebApplication2
                         UnicodeRanges.BasicLatin,UnicodeRanges.CjkCompatibilityIdeographs
                     }
                 ));
+            services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] {
+                UnicodeRanges.BasicLatin,UnicodeRanges.CjkCompatibilityIdeographs
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,9 +78,16 @@ namespace WebApplication2
 
             if (env.IsDevelopment())
             {
+                
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                app.UseCookieAuthentication(new CookieAuthenticationOptions{
+                    
+                    LoginPath="/Tintucs/Index",
+
+                    LogoutPath="/Home/Index"   
+                });
             }
             else
             {
@@ -78,9 +95,9 @@ namespace WebApplication2
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseIdentity();
-
+            
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>

@@ -1,9 +1,10 @@
-﻿@model WebApplication2.Models.Chuyenmuc
+﻿@using WebApplication2.Models;
+@model Chuyenmuc
 
 @{
     ViewData["Title"] = "Details";
-}
 
+    WebTTContext db = new WebTTContext(); }
 <h2>Chi tiết</h2>
 
 <div>
@@ -17,10 +18,10 @@
             @Html.DisplayFor(model => model.Tenchuyenmuc)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Sobaiviet)
+            Số bài viết
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Sobaiviet)
+            @db.Tintuc.Where(t => t.Machuyenmuc == Model.Machuyenmuc).Count()
         </dd>
     </dl>
 </div>

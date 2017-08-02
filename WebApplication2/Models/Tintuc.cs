@@ -7,7 +7,7 @@ namespace WebApplication2.Models
     public partial class Tintuc
     {
         public int Matintuc { get; set; }
-
+        
         [Required,Display(Name ="Tiêu đề")]
         public string Tieude { get; set; }
 
@@ -17,7 +17,7 @@ namespace WebApplication2.Models
         [Required, Display(Name = "Nội dung")]
         public string Noidung { get; set; }
 
-         [Required(ErrorMessage = "Chưa có ảnh đâu"), Display(Name = "Ảnh")]
+         [/*Required(ErrorMessage = "Chưa có ảnh đâu"),*/ Display(Name = "Ảnh")]
         public string Anh { get; set; }
 
         [Display(Name ="Ngày đăng")]

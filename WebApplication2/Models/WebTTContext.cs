@@ -30,7 +30,7 @@ namespace WebApplication2.Models
 
                 entity.Property(e => e.Machuyenmuc).HasColumnName("machuyenmuc");
 
-                entity.Property(e => e.Sobaiviet).HasColumnName("sobaiviet");
+                //entity.Property(e => e.Sobaiviet).HasColumnName("sobaiviet");
 
                 entity.Property(e => e.Tenchuyenmuc)
                     .HasColumnName("tenchuyenmuc")

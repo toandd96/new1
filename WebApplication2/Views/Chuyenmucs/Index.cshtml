@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<WebApplication2.Models.Chuyenmuc>
-
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,9 +15,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Tenchuyenmuc)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Sobaiviet)
-                </th>
+                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -27,13 +27,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Tenchuyenmuc)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Sobaiviet)
-            </td>
+            </td>*@
             <td>
                 <button class="btn btn-success" onclick="location.href='@Url.Action("Edit","Chuyenmucs",new{id=item.Machuyenmuc})'">Sửa</button> 
                 <button class="btn btn-info" onclick="location.href='@Url.Action("Details","Chuyenmucs",new{id=item.Machuyenmuc})'">Chi tiết</button>
                 <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete","Chuyenmucs",new{id=item.Machuyenmuc})'">Xóa</button>
+                @*@if(HttpContext.Equals()*@
             </td>
         </tr>
 }

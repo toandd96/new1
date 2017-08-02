@@ -9,18 +9,27 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Encodings.Web;
 
 namespace WebApplication2.Controllers
 {
     public class TintucsController : Controller
     {
+        HtmlEncoder _htmlEncoder;
+        JavaScriptEncoder _javaScriptEncoder;
+        UrlEncoder _urlEncoder;
 
         private readonly WebTTContext _context;
         private readonly IHostingEnvironment _enviroment;
 
 
-        public TintucsController(WebTTContext context, IHostingEnvironment enviroment)
+        public TintucsController(WebTTContext context, IHostingEnvironment enviroment, HtmlEncoder htmlEncoder,
+                             JavaScriptEncoder javascriptEncoder,
+                             UrlEncoder urlEncoder)
         {
+            _htmlEncoder = htmlEncoder;
+            _javaScriptEncoder = javascriptEncoder;
+            _urlEncoder = urlEncoder;
             _enviroment = enviroment;
             _context = context;
 
@@ -47,7 +56,9 @@ namespace WebApplication2.Controllers
         //[ValidateInput(false)]
         public async Task<IActionResult> Index()
         {
+            HttpContext.Session.SetString("ma","conmeo");
             var webTTContext = _context.Tintuc.Include(t => t.MachuyenmucNavigation);
+            //HttpContext.Session.SetInt32("a", 5);
             return View(await webTTContext.ToListAsync());
         }
 
@@ -63,6 +74,7 @@ namespace WebApplication2.Controllers
             var tintuc = await _context.Tintuc
                 .Include(t => t.MachuyenmucNavigation)
                 .SingleOrDefaultAsync(m => m.Matintuc == id);
+            
             if (tintuc == null)
             {
                 return NotFound();
@@ -89,8 +101,9 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Anh.Length > 0)
+                if (Anh!=null&&Anh.Length > 0)
                 {
+                    
                     var uploadpath = Path.Combine(_enviroment.WebRootPath, "images");
                     Directory.CreateDirectory(Path.Combine(uploadpath));
                     string filename = Anh.FileName;
@@ -107,7 +120,9 @@ namespace WebApplication2.Controllers
                 }
                 tintuc.Ngaydang = DateTime.Now;
                 var sbv =await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
-                sbv.Sobaiviet = sbv.Sobaiviet + 1;
+                var encode = _javaScriptEncoder.Encode(tintuc.Noidung);
+                
+                tintuc.Noidung = encode;
                 _context.Add(tintuc);
 
                 await _context.SaveChangesAsync();
@@ -119,7 +134,11 @@ namespace WebApplication2.Controllers
         }
 
 
-
+        public async Task<ActionResult> LogoffSession()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index","Home");
+        }
         // GET: Tintucs/Edit/5
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
@@ -144,7 +163,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh, Chuyenmuc chuyenmuc)
+        public async Task<IActionResult> Edit(int? id, [Bind("Matintuc,Tieude,Tieudecon,Noidung,Anh,Ngaydang,Tacgia,Machuyenmuc")] Tintuc tintuc, IFormFile Anh, Chuyenmuc chuyenmuc)
         {
 
             if (id != tintuc.Matintuc)
@@ -156,9 +175,17 @@ namespace WebApplication2.Controllers
             {
                 try
                 {
+                    Tintuc gettintuc =await _context.Tintuc.AsNoTracking().SingleOrDefaultAsync(t=>t.Matintuc==id);
+                    var getimage = gettintuc.Anh;
                     // sửa ảnh cho tin tức
-                    if (Anh.Length > 0)
+                    if (Anh == null||Anh.Length<0)
                     {
+                        tintuc.Anh = getimage;
+                    }
+                    else 
+                    {
+                        
+                        
                         var uploadpath = Path.Combine(_enviroment.WebRootPath, "images");
                         Directory.CreateDirectory(Path.Combine(uploadpath));
                         string filename = Anh.FileName;
@@ -177,10 +204,10 @@ namespace WebApplication2.Controllers
                     Tintuc tintucchuasua =await _context.Tintuc.AsNoTracking().Where(tt => tt.Matintuc == id).FirstOrDefaultAsync();
                     //số bài viết giảm đi trong chuyên mục
                     Chuyenmuc chuyenmucbisua = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintucchuasua.Machuyenmuc);
-                    chuyenmucbisua.Sobaiviet = chuyenmucbisua.Sobaiviet - 1;
+                    //chuyenmucbisua.Sobaiviet = chuyenmucbisua.Sobaiviet - 1;
                     // sửa số bài viết tăng lên trong chuyên mục
                     chuyenmuc = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
-                    chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet + 1;
+                    //chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet + 1;
                     _context.Update(tintuc);
                     await _context.SaveChangesAsync();
                 }
@@ -209,7 +236,8 @@ namespace WebApplication2.Controllers
             {
                 return NotFound();
             }
-
+            var a = HttpContext.Session.GetInt32("a");
+            ViewData["a"]=a;
             var tintuc = await _context.Tintuc
                 .Include(t => t.MachuyenmucNavigation)
                 .SingleOrDefaultAsync(m => m.Matintuc == id);
@@ -230,7 +258,7 @@ namespace WebApplication2.Controllers
 
             var tintuc = await _context.Tintuc.SingleOrDefaultAsync(am => am.Matintuc == id);
             var chuyenmuc = await _context.Chuyenmuc.SingleOrDefaultAsync(c => c.Machuyenmuc == tintuc.Machuyenmuc);
-            chuyenmuc.Sobaiviet = chuyenmuc.Sobaiviet - 1;
+            
             _context.Tintuc.Remove(tintuc);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
