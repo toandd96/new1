@@ -1,0 +1,38 @@
+﻿@model WebApplication2.Data.User
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutADM.cshtml";
+}
+<h2 class="text-center">Login</h2>
+<form class="form-horizontal" method="post" asp-action="Login" asp-controller="Home" @*asp-route-returnurl="@Model.ReturnUrl"*@>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="Taikhoan" class="col-md-3 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Taikhoan" class="form-control" />
+                <span asp-validation-for="Taikhoan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Matkhau" class="col-md-3 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Matkhau" class="form-control" />
+                <span asp-validation-for="Matkhau" class="text-danger"></span>
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <div class="col-lg-offset-6">
+                <button type="submit" class="btn btn-success">Đăng nhập</button>
+            </div>
+            <h2 class="text-danger text-center">@ViewData["Error"]</h2>
+
+            <label class="col-sm-offset-5">Bạn chưa có tài khoản? @Html.ActionLink("Đăng ký!", "Register", "Home")</label>
+        </div>
+    </div>
+</form>

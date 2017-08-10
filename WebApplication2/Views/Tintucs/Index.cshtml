@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebApplication2.Models.Tintuc>
+﻿@using System.Collections.Generic
+@model System.Collections.Generic.IEnumerable<WebApplication2.Data.Tintuc>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,7 +9,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON("Tintucs/getalltintuc", function (data) {
+        $.getJSON("Tintucs/Getalltintuc", function (data) {
             var tr;
             for (var i = 0; i < data.length; i++) {
                 var tr = $("<tr/>");

@@ -13,6 +13,8 @@ using WebApplication2.Models;
 using WebApplication2.Services;
 using Microsoft.AspNetCore.Session;
 using System;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication2
 {
@@ -44,10 +46,17 @@ namespace WebApplication2
             services.AddDbContext<WebTTContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<string>>(
-            )
-                .AddEntityFrameworkStores<WebTTContext, string>()
-                .AddDefaultTokenProviders();
+            //    services.AddIdentity<ApplicationUser, IdentityRole<string>>(options =>
+            //            {
+            //                options.Cookies.ApplicationCookie.LoginPath = "/Home/Login";
+            //            }
+
+            //)
+            //.AddEntityFrameworkStores<WebTTContext, string>()
+            //        .AddDefaultTokenProviders();
+
+
+
 
             services.AddMvc();
             services.AddSession(option =>
@@ -82,12 +91,12 @@ namespace WebApplication2
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
-                app.UseCookieAuthentication(new CookieAuthenticationOptions{
+                //app.UseCookieAuthentication(new CookieAuthenticationOptions{
                     
-                    LoginPath="/Tintucs/Index",
+                //    LoginPath= "/Home/Login",
 
-                    LogoutPath="/Home/Index"   
-                });
+                //    LogoutPath="/Home/Index"   
+                //});
             }
             else
             {
@@ -96,8 +105,16 @@ namespace WebApplication2
 
             app.UseStaticFiles();
             app.UseSession();
-            app.UseIdentity();
-            
+            //app.UseIdentity();
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AuthenticationScheme = "MyCookieMiddlewareInstance",
+                LoginPath = new PathString("/Home/Login/"),
+                AccessDeniedPath = new PathString("/Home/Login/"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
@@ -106,11 +123,11 @@ namespace WebApplication2
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseFacebookAuthentication(new FacebookOptions()
-            {
-                AppId = "309375949484313",
-                AppSecret ="f9245956f0ad94646eac40496bbfeb0c"
-            });
+            //app.UseFacebookAuthentication(new FacebookOptions()
+            //{
+            //    AppId = "309375949484313",
+            //    AppSecret ="f9245956f0ad94646eac40496bbfeb0c"
+            //});
             //new UserRoleSeed(app.ApplicationServices.GetService<RoleManager<IdentityRole>>()).Seed();
 
         }

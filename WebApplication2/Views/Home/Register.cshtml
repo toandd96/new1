@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Mvc
+@model WebApplication2.Data.User
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Đăng ký</h2>
+
+<form asp-action="Register">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Hoten" class="col-md-5 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Hoten" class="form-control" />
+                <span asp-validation-for="Hoten" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Taikhoan" class="col-md-5 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Taikhoan" class="form-control" />
+                <span asp-validation-for="Taikhoan" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-5 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Matkhau" class="col-md-5 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="Matkhau" class="form-control" />
+                <span asp-validation-for="Matkhau" class="text-danger"></span>
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            <label asp-for="XacNhanMatkhau" class="col-md-5 control-label"></label>
+            <div class="col-md-7">
+                <input asp-for="XacNhanMatkhau" class="form-control" />
+                <span asp-validation-for="XacNhanMatkhau" class="text-danger"></span>
+            </div>
+        </div>*@
+        
+        <div class="form-group">
+            <div class="col-sm-offset-6">
+                <input type="submit" value="Đăng ký" class="btn btn-success" />
+                <input type="button" class="btn btn-info" value="Quay trở lại" onclick="location.href='@Url.Action("Index","Home")'" />
+            </div>
+        </div>
+        <h2 class="text-center text-danger">@ViewData["Error"]</h2>
+        
+    </div>
+</form>
+
+
+

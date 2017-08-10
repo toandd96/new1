@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -36,10 +37,20 @@
                     </h2>
 
                 </div>
-
-                <span class="logout-spn">
-                    @await Html.PartialAsync("_LoginPartial")
-                </span>
+                @if (Context.Session.GetString("SessionName") == null)
+                {
+                    <span class="logout-spn">
+                        @Html.ActionLink("Login", "Login", "Home")|@Html.ActionLink("Register","Register","Home")
+                    </span>
+                }
+                else
+                {
+                    {
+                        <span class="logout-spn">
+                            Xin chào @Context.Session.GetString("SessionName") @Html.ActionLink("Thoát", "LogOffSession", "Home")
+                        </span>
+                    }
+                }
             </div>
         </div>
         <!-- /. NAV TOP  -->
@@ -132,6 +143,6 @@
     <script src="/assets/js/bootstrap.min.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="/assets/js/custom.js"></script>
-    @RenderSection("Scripts",required:false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

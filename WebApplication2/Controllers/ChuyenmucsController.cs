@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models;
+using WebApplication2.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
@@ -24,8 +24,6 @@ namespace WebApplication2.Controllers
         // GET: Chuyenmucs1
         public async Task<IActionResult> Index()
         {
-            
-
             return View(await _context.Chuyenmuc.ToListAsync());
         }
 
@@ -39,19 +37,11 @@ namespace WebApplication2.Controllers
             {
                 return NotFound();
             }
-            if(id!=null)
-            {
-
-                //ViewData["Dai"]=HttpContext.Session.GetString("TaiKhoan");
-            }
+            //ViewData["Dai"]=HttpContext.Session.GetString("TaiKhoan");
             var chuyenmuc = await _context.Chuyenmuc
                 .SingleOrDefaultAsync(m => m.Machuyenmuc == id);
             HttpContext.Session.SetInt32("TaiKhoan", chuyenmuc.Machuyenmuc);
-            if (chuyenmuc == null)
-            {
-                return NotFound();
-            }
-            int sbv =await _context.Tintuc.Where(tt => tt.Machuyenmuc == id).CountAsync();
+            await _context.Tintuc.Where(tt => tt.Machuyenmuc == id).CountAsync();
             return View(chuyenmuc);
         }
 
@@ -72,11 +62,11 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                string a = "Toàn";
+                
                 _context.Add(chuyenmuc);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index",a);
+                return RedirectToAction("Index");
             }
             return View(chuyenmuc);
         }

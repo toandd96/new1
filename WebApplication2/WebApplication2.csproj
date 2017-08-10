@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Chuyenmuc.cs" />
+    <Compile Remove="Models\Tinnhanh.cs" />
+    <Compile Remove="Models\Tintuc.cs" />
+    <Compile Remove="Models\WebTTContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\assets\css\bootstrap.css" />
     <Content Include="wwwroot\assets\css\custom.css" />
     <Content Include="wwwroot\assets\css\font-awesome.css" />

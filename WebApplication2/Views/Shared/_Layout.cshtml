@@ -1,4 +1,5 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,20 @@
                     <li><a asp-area="" asp-controller="Tinnhanhs" asp-action="Index">Tin nhanh</a></li>
                     <li><a asp-area="" asp-controller="Chuyenmucs" asp-action="Index">Chuyên mục</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                @*@await Html.PartialAsync("_LoginPartial")*@
+                <div class="col-md-offset-10 glyphicon-text-size" style="font-size: 18px;margin-top: 7px">
+                    @if (Context.Session.GetInt32("Sessionid") == null)
+                    {
+                        <label>@Html.ActionLink("Đăng Nhập", "Login", "Home")</label>
+                        <label>  @Html.ActionLink("Đăng ký", "Register", "Home")</label>
+                    }
+                    else
+                    {
+                        <label>Xin chào</label>
+                        Context.Session.GetString("SessionName");
+                        <label>@Html.ActionLink("Thoát", "LogOffSession", "Home")</label>
+                    }
+                </div>
             </div>
         </div>
     </nav>
